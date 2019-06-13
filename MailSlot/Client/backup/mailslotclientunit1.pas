@@ -5,7 +5,7 @@ unit MailSlotClientUnit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,Windows;
 
 type
 
@@ -38,28 +38,35 @@ begin
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
-VAR
-Mailslot:THANDLE;
-BytesWritten:DWORD;
-ServerName:Array[1..256] of char;
-i:Integer;
+var
+    Mailslot:THANDLE;
+    BytesWritten:DWORD;
+    ServerName:Array[1..256] of char;
+    i:Integer;
 begin
-For i:=1 to 256 do ServerName[i]:=#0;
-StrPCopy(@ServerName,'\\'+Edit1.Text+'\Mailslot\Myslot');
-Mailslot:= CreateFile(@ServerName,
-GENERIC_WRITE, FILE_SHARE_READ,
-Nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,0);
-if Mailslot= INVALID_HANDLE_VALUE then
-begin
-ShowMessageFmt('Ошибка  %d при создании файла', [GetLastError]);
-exit;
-end;
-if (WriteFile(Mailslot, 'This is a test', 14, BytesWritten, nil) = False) then
-begin
-ShowMessageFmt('Ошибка %d при записи в файл', [GetLastError]);
-exit; end;
-ShowMessageFmt('Передано %d байт', [BytesWritten]);
-CloseHandle(Mailslot);
+    for i:=1 to 256 do
+    begin
+         ServerName[i]:=#0;
+    end;
+    StrPCopy(@ServerName,'\\'+Edit1.Text+'\Mailslot\Myslot');
+              Mailslot:= CreateFile(@ServerName,
+              GENERIC_WRITE, FILE_SHARE_READ,
+              Nil,
+              OPEN_EXISTING,
+              FILE_ATTRIBUTE_NORMAL,
+              0);
+    if Mailslot= INVALID_HANDLE_VALUE then
+    begin
+        ShowMessageFmt('Ошибка  %d при создании файла', [GetLastError]);
+        exit;
+    end;
+    if (not WriteFile(Mailslot, 'This is a test', 14, BytesWritten, nil)) then
+    begin
+    ShowMessageFmt('Ошибка %d при записи в файл', [GetLastError]);
+    exit;
+    end;
+    ShowMessageFmt('Передано %d байт', [BytesWritten]);
+    CloseHandle(Mailslot);
 end;
 
 end.

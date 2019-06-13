@@ -9,3 +9,6 @@ Files/lib/x86_64-win64/Files.obj
 Files/lib/x86_64-win64/Files.o
 Files/lib/x86_64-win64/Files.compiled
 *.exe
+*.res
+*.ppu
+*.lfm
