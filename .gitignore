@@ -12,3 +12,5 @@ Files/lib/x86_64-win64/Files.compiled
 *.res
 *.ppu
 *.lfm
+*.o
+*.obj
