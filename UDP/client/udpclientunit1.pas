@@ -33,7 +33,7 @@ implementation
 { TForm1 }
 
 procedure TForm1.Button1Click(Sender: TObject);
-VAR
+var
    s: TSocket; {Сокет}
    recipient, sender_socket: TSockAddr; {адреса сокета получателя и сокета отправителя}
    ret: Integer; {результат работы функций}

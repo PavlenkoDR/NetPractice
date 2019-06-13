@@ -109,7 +109,7 @@ begin
 
         if (WriteFile(FileHandle, buffer, BytesToWrite, BytesWritten, Nil)) then
         begin
-             ShowMessage('Файл записан!');
+             ShowMessage('Файл записан!!!');
              if not (CloseHandle(FileHandle)) then
              begin
                 ShowMessage(SysErrorMessage(GetLastError));
