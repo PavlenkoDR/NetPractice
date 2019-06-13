@@ -31,6 +31,7 @@ object Form1: TForm1
     Top = 8
     Width = 224
     TabOrder = 1
+    Text = '\\127.0.0.1\serverTest\1.txt'
   end
   object Button1: TButton
     Left = 400
