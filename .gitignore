@@ -1,0 +1,11 @@
+
+*.o
+*.obj
+*.compiled
+Files/lib/x86_64-win64/filesunit1.ppu
+Files/lib/x86_64-win64/filesunit1.o
+Files/lib/x86_64-win64/filesunit1.lfm
+Files/lib/x86_64-win64/Files.obj
+Files/lib/x86_64-win64/Files.o
+Files/lib/x86_64-win64/Files.compiled
+*.exe
