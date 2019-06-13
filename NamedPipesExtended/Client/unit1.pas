@@ -32,56 +32,59 @@ implementation
 { TForm1 }
 
 procedure TForm1.Button1Click(Sender: TObject);
-CONST
+const
      PIPE_NAME='\\.\Pipe\Jim';
-VAR
+var
      PipeHandle: THANDLE;
      Buffer: array [1..80] of char;
      BytesWritten: DWORD;
      BytesRead:DWORD;
      str:string;
 begin
-if not WaitNamedPipe(PIPE_NAME, NMPWAIT_WAIT_FOREVER)  then
-     begin
-          ShowMessageFmt('Функция WaitNamedPipe завершена с ошибкой %d', [GetLastError]);
-          exit;
-     end;
-     // Открытие экземпляра именованного канала
-PipeHandle := CreateFile(PIPE_NAME,
-                         GENERIC_READ or GENERIC_WRITE,
-                         0,
-                         Nil,
-                         OPEN_EXISTING,
-                         FILE_ATTRIBUTE_NORMAL,
-                         0);
+    if not WaitNamedPipe(PIPE_NAME, NMPWAIT_WAIT_FOREVER) then
+    begin
+        ShowMessageFmt('Функция WaitNamedPipe завершена с ошибкой %d', [GetLastError]);
+        exit;
+    end;
 
-if PipeHandle=INVALID_HANDLE_VALUE then
-     begin
-          ShowMessageFmt('Функция CreateFile завершена с ошибкой %d', [GetLastError]);
-          exit;
-     end;
-ZeroMemory(@buffer, sizeof(buffer)) ;
-StrPCopy(@buffer, PChar(Edit1.Text));
+    // Открытие экземпляра именованного канала
+    PipeHandle := CreateFile( PIPE_NAME,
+                              GENERIC_READ or GENERIC_WRITE,
+                              0,
+                              Nil,
+                              OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL,
+                              0);
 
-if not WriteFile(PipeHandle, Buffer , length(Buffer), BytesWritten, Nil) then
-     begin
-          ShowMessageFmt('WriteFile failed with error %d', [GetLastError]);
-          CloseHandle(PipeHandle);
-          exit;
-     end;
+    if PipeHandle=INVALID_HANDLE_VALUE then
+    begin
+        ShowMessageFmt('Функция CreateFile завершена с ошибкой %d', [GetLastError]);
+        exit;
+    end;
 
-ZeroMemory(@buffer, sizeof(buffer)) ;
+    ZeroMemory(@buffer, sizeof(buffer)) ;
+    StrPCopy(@buffer, PChar(Edit1.Text));
 
-if not ReadFile(PipeHandle, buffer, sizeof(buffer), BytesRead, nil) then
-   begin
+    if not WriteFile(PipeHandle, Buffer , length(Buffer), BytesWritten, Nil) then
+    begin
+        ShowMessageFmt('WriteFile failed with error %d', [GetLastError]);
+        CloseHandle(PipeHandle);
+        exit;
+    end;
+
+    ZeroMemory(@buffer, sizeof(buffer)) ;
+
+    if not ReadFile(PipeHandle, buffer, sizeof(buffer), BytesRead, nil) then
+    begin
         ShowMessageFmt('Ошибка %d при чтении данных', [GetLastError]);
         CloseHandle(PipeHandle);
         exit;
-   end;
-//ShowMessageFmt('Transmitted %d bytes ', [BytesRead]);
-str:=StrPas(@buffer);
+    end;
+
+    //ShowMessageFmt('Transmitted %d bytes ', [BytesRead]);
+    str:=StrPas(@buffer);
     Edit2.Text:=str;
-CloseHandle(PipeHandle);
+    CloseHandle(PipeHandle);
 end;
 
 end.

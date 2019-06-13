@@ -14,3 +14,4 @@ Files/lib/x86_64-win64/Files.compiled
 *.lfm
 *.o
 *.obj
+Mailslots/Server/lib/x86_64-win64/MailSlotServer.compiled
