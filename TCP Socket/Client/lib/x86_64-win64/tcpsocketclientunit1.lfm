@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 240
   Top = 135
   Width = 320
-  Caption = 'Form1'
+  Caption = 'TCPSocketServer'
   ClientHeight = 240
   ClientWidth = 320
   LCLVersion = '2.0.0.4'
